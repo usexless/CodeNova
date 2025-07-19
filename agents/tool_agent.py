@@ -2,6 +2,7 @@ from typing import Dict, Any, List, cast
 import json
 import sys
 import os
+import yaml
 from openai.types.chat import ChatCompletionMessage, ChatCompletionMessageParam, ChatCompletionToolParam
 
 from agents.base_agent import BaseAgent, Task
@@ -44,7 +45,13 @@ class ToolAgent(BaseAgent):
             # Command execution and monitoring
             "run_command": self.run_command,
             "command_status": self.command_status,
-            
+
+            # Web and deployment tools
+            "read_deployment_config": self.read_deployment_config,
+            "deploy_web_app": self.deploy_web_app,
+            "check_deploy_status": self.check_deploy_status,
+            "browser_preview": self.browser_preview,
+
             # Web content and search
             "read_url_content": self.read_url_content,
             "view_web_document_content_chunk": self.view_web_document_content_chunk,
@@ -362,6 +369,72 @@ Sei proaktiv, gründlich und autonom. Löse Probleme komplett mit deinen erweite
                 "count": len(items)
             }
             
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
+    def read_deployment_config(self, path: str) -> Dict[str, Any]:
+        """Liest und validiert eine Deployment-Konfiguration."""
+        try:
+            import json
+            import yaml
+            from pathlib import Path
+
+            config_path = Path(path)
+            if not config_path.exists():
+                return {"status": "error", "message": "Config-Datei nicht gefunden"}
+
+            content = config_path.read_text(encoding="utf-8")
+            data: Dict[str, Any]
+            if path.endswith((".yaml", ".yml")):
+                data = yaml.safe_load(content)
+            else:
+                data = json.loads(content)
+
+            return {"status": "success", "config": data, "path": str(config_path)}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
+    def deploy_web_app(self, project_path: str, platform: str = "netlify") -> Dict[str, Any]:
+        """Deployt eine Webanwendung. Placeholder-Implementierung."""
+        try:
+            console.print(f"🚀 Deploye {project_path} auf {platform} …")
+            # Placeholder: in real scenario we would call platform CLI
+            result = code_executor.run_shell(f"echo Deploy {project_path} to {platform}")
+            return {"status": "success", "output": result}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
+    def check_deploy_status(self, deploy_id: str) -> Dict[str, Any]:
+        """Überprüft den Status eines Deployments. Placeholder-Implementierung."""
+        try:
+            console.print(f"📡 Prüfe Deployment-Status für {deploy_id}")
+            # Placeholder result
+            return {"status": "success", "deploy_id": deploy_id, "state": "unknown"}
+        except Exception as e:
+            return {"status": "error", "message": str(e)}
+
+    def browser_preview(self, directory: str, port: int = 8000) -> Dict[str, Any]:
+        """Startet einen einfachen HTTP-Server zur Vorschau im Browser."""
+        try:
+            from threading import Thread
+            import http.server
+            import socketserver
+
+            directory = os.path.abspath(directory)
+            if not os.path.isdir(directory):
+                return {"status": "error", "message": "Verzeichnis existiert nicht"}
+
+            handler = http.server.SimpleHTTPRequestHandler
+            httpd = socketserver.TCPServer(("", port), handler)
+
+            def serve():
+                os.chdir(directory)
+                httpd.serve_forever()
+
+            thread = Thread(target=serve, daemon=True)
+            thread.start()
+
+            return {"status": "success", "directory": directory, "port": port}
         except Exception as e:
             return {"status": "error", "message": str(e)}
 
