@@ -176,8 +176,7 @@ Erstelle `.agent_hooks.json`:
 {
   "on_write": ["run_tests"],
   "on_edit": ["run_tests"],
-  "on_create_test": ["run_tests"],
-  "on_build": ["cascade.run"]
+  "on_create_test": ["run_tests"]
 }
 ```
 
@@ -187,92 +186,6 @@ Hooks werden automatisch nach Tool-Ausführung ausgelöst:
 - `on_edit`: Nach `edit_file_line`
 - `on_create_test`: Nach `create_test`
 
-## 🌊 Cascade-Workflows
-
-### Standard-Konfiguration (.cascade.yml)
-
-```yaml
-name: ai-programmer-pipeline
-version: "1.0"
-steps:
-  - name: setup
-    description: Environment setup and dependency check
-    commands:
-      - python -m pip install -r requirements.txt
-      - python -c "import pytest; print('✓ pytest available')"
-    continue_on_failure: false
-
-  - name: lint
-    description: Code quality checks
-    commands:
-      - python -m flake8 --max-line-length=100
-      - python -m mypy --ignore-missing-imports .
-    continue_on_failure: false
-    optional: true
-
-  - name: test
-    description: Run test suite
-    commands:
-      - python -m pytest -v --tb=short
-    continue_on_failure: false
-
-  - name: coverage
-    description: Test coverage analysis
-    commands:
-      - python -m pytest --cov=. --cov-report=html
-      - python -m coverage report --fail-under=80
-    optional: true
-
-environment:
-  PYTHONPATH: "."
-  PYTEST_DISABLE_PLUGIN_AUTOLOAD: "1"
-```
-
-### Cascade-CLI
-
-#### Alle Steps ausführen
-```bash
-python cascade.py
-```
-
-#### Einzelnen Step ausführen
-```bash
-python cascade.py test
-```
-
-#### Status anzeigen
-```bash
-python cascade.py status
-```
-
-#### Python-Template initialisieren
-```bash
-python cascade.py init python
-```
-
-### Programmatische Nutzung
-
-```python
-from cascade import cascade_cli
-
-# Alle Steps ausführen
-result = cascade_cli.run()
-
-# Einzelnen Step
-result = cascade_cli.run("test")
-
-# Custom Pipeline
-steps = [
-    {
-        "name": "quick-test",
-        "description": "Schneller Test",
-        "commands": ["pytest -x"],
-        "continue_on_failure": false
-    }
-]
-
-cascade_cli.cascade.create_custom_config(steps)
-```
 
 ## 📊 Logging & Monitoring
 
@@ -299,17 +212,6 @@ Workflow-Schritte werden in `/state/workflow.log` gespeichert:
 }
 ```
 
-### Cascade-Log
-Build-Results werden in `/state/cascade.log` gespeichert:
-
-```json
-{
-  "timestamp": "2024-01-15T10:32:00.456789",
-  "step": "test",
-  "success": true,
-  "duration": 2.34
-}
-```
 
 ## 🔄 Komplettes Beispiel
 
@@ -334,8 +236,8 @@ router.execute_tool("create_test",
     code="''\"Test calculator''\"\nfrom calculator import add, multiply\n\ndef test_add():\n    assert add(2, 3) == 5\n\ndef test_multiply():\n    assert multiply(3, 4) == 12"
 )
 
-# 4. Cascade ausführen
-cascade_cli.run()
+# 4. Tests ausführen
+router.execute_tool("run_tests")
 
 # 5. Status prüfen
 router.execute_tool("run_cmd", command="git status")
@@ -393,7 +295,7 @@ if not error_result["success"]:
 Alle Tool-Ausführungen werden mit Zeitstempeln geloggt für Performance-Analyse.
 
 ### Resource-Tracking
-Cascade-Steps zeigen Ausführungszeiten:
+Typische Ausführungszeiten:
 - Setup: ~2-5 Sekunden
 - Lint: ~1-3 Sekunden
 - Tests: ~0.5-2 Sekunden
@@ -410,21 +312,5 @@ Cascade-Steps zeigen Ausführungszeiten:
 }
 ```
 
-### Multi-Step Workflows
-```yaml
-# .cascade.yml
-steps:
-  - name: pre-commit
-    commands:
-      - black --check .
-      - isort --check-only .
-  - name: security
-    commands:
-      - bandit -r .
-      - safety check
-  - name: docs
-    commands:
-      - sphinx-build docs docs/_build
-```
 
 Diese Tools bieten ein vollständiges Entwicklungs-Ökosystem mit automatischer Code-Qualitätssicherung und Continuous Integration-Funktionen.
