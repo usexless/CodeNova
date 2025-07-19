@@ -1,0 +1,58 @@
+[
+  {
+    "content": "Projekt erstellt: test_calculator mit Anforderungen: Taschenrechner mit GUI",
+    "type": "project_creation",
+    "project": "test_calculator",
+    "requirements": "Taschenrechner mit GUI",
+    "id": 0
+  },
+  {
+    "content": "Projekt erstellt: test_integration_project mit Anforderungen: Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "type": "project_creation",
+    "project": "test_integration_project",
+    "requirements": "Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "id": 1
+  },
+  {
+    "content": "Projekt erstellt: test_integration_project mit Anforderungen: Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "type": "project_creation",
+    "project": "test_integration_project",
+    "requirements": "Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "id": 2
+  },
+  {
+    "content": "Projekt erstellt: test_integration_project mit Anforderungen: Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "type": "project_creation",
+    "project": "test_integration_project",
+    "requirements": "Erstelle eine einfache Todo-Listen CLI-Anwendung in Python",
+    "id": 3
+  },
+  {
+    "content": "Projekt erstellt: simple-test mit Anforderungen: Erstelle eine einfache Python-Funktion die zwei Zahlen addiert",
+    "type": "project_creation",
+    "project": "simple-test",
+    "requirements": "Erstelle eine einfache Python-Funktion die zwei Zahlen addiert",
+    "id": 4
+  },
+  {
+    "content": "Projekt erstellt: adder mit Anforderungen: Erstelle eine Python-Funktion die zwei Zahlen addiert und ein kleines Testprogramm",
+    "type": "project_creation",
+    "project": "adder",
+    "requirements": "Erstelle eine Python-Funktion die zwei Zahlen addiert und ein kleines Testprogramm",
+    "id": 5
+  },
+  {
+    "content": "Projekt erstellt: test-plan mit Anforderungen: Erstelle eine einfache Python-Funktion die zwei Zahlen multipliziert",
+    "type": "project_creation",
+    "project": "test-plan",
+    "requirements": "Erstelle eine einfache Python-Funktion die zwei Zahlen multipliziert",
+    "id": 6
+  },
+  {
+    "content": "Projekt erstellt: auto_project_20250718_171859_825f7c7e mit Anforderungen: Erstelle eine einfache Python-Funktion die zwei Zahlen dividiert",
+    "type": "project_creation",
+    "project": "auto_project_20250718_171859_825f7c7e",
+    "requirements": "Erstelle eine einfache Python-Funktion die zwei Zahlen dividiert",
+    "id": 7
+  }
+]

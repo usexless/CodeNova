@@ -1,0 +1,8 @@
+{
+  "on_write": ["run_tests"],
+  "on_edit": ["run_tests"],
+  "on_create_test": ["run_tests"],
+  "on_build": ["cascade.run"],
+  "on_success": ["git_commit"],
+  "on_failure": ["debug_phase"]
+}
