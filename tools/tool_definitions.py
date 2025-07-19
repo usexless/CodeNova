@@ -394,6 +394,65 @@ def get_tool_definitions() -> List[Dict[str, Any]]:
                 }
             }
         },
+        # Web Deployment Tools
+        {
+            "type": "function",
+            "function": {
+                "name": "read_deployment_config",
+                "description": "Liest und validiert eine Deployment-Konfigurationsdatei (JSON oder YAML).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "path": {"type": "string", "description": "Pfad zur Konfigurationsdatei."}
+                    },
+                    "required": ["path"]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "deploy_web_app",
+                "description": "Deployt eine Webanwendung auf eine unterstützte Plattform (z. B. Netlify).",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "project_path": {"type": "string", "description": "Pfad zum Webprojekt"},
+                        "platform": {"type": "string", "description": "Deployment-Plattform", "default": "netlify"}
+                    },
+                    "required": ["project_path"]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "check_deploy_status",
+                "description": "Überprüft den Status eines zuvor gestarteten Deployments.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "deploy_id": {"type": "string", "description": "ID des Deployments"}
+                    },
+                    "required": ["deploy_id"]
+                }
+            }
+        },
+        {
+            "type": "function",
+            "function": {
+                "name": "browser_preview",
+                "description": "Startet einen einfachen HTTP-Server zur lokalen Vorschau im Browser.",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "directory": {"type": "string", "description": "Verzeichnis, das serviert werden soll"},
+                        "port": {"type": "integer", "description": "Port für den HTTP-Server", "default": 8000}
+                    },
+                    "required": ["directory"]
+                }
+            }
+        },
         
 
         
